@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException, status
 from bson import ObjectId
 
-from ..database import pedidos_collection, productos_collection
-from ..schemas.pedido import PedidoCreate
+from database import pedidos_collection, productos_collection
+from schemas.pedido import PedidoCreate
 
 router = APIRouter(prefix="/pedidos", tags=["Pedidos"])
 
