@@ -1,0 +1,15 @@
+# Entorno virtual (no subir a GitHub)
+venv/
+.venv/
+
+# Variables de entorno con credenciales secretas
+.env
+*.env
+
+# Archivos de caché de Python
+__pycache__/
+*.pyc
+
+# Configuración de VS Code / IDEs
+.vscode/
+.idea/
