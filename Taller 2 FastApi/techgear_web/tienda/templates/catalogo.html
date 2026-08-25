@@ -2,19 +2,59 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>TechGear - Catálogo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechGear - Tienda Online</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8f9fa; margin: 0; padding: 20px; }
+        h1 { text-align: center; color: #2c3e50; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; max-width: 1100px; margin: 30px auto; }
+        .card { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: space-between; }
+        .badge { background: #e0e7ff; color: #3730a3; padding: 4px 8px; border-radius: 4px; font-size: 12px; width: fit-content; margin-bottom: 10px; }
+        .price { font-size: 20px; font-weight: bold; color: #059669; margin: 10px 0; }
+        .stock { font-size: 13px; color: #6b7280; }
+        .btn { background: #2563eb; color: white; border: none; padding: 10px; width: 100%; border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 10px; }
+        .btn:hover { background: #1d4ed8; }
+        .input-group { margin-top: 10px; }
+        .input-group input { width: 92%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; }
+        .alert { background: #fee2e2; color: #991b1b; padding: 12px; border-radius: 6px; max-width: 600px; margin: 0 auto; text-align: center; }
+        .success { background: #dcfce7; color: #166534; padding: 12px; border-radius: 6px; max-width: 600px; margin: 0 auto 20px auto; text-align: center; }
+    </style>
 </head>
 <body>
-    <h1>Catálogo TechGear</h1>
-    {% if error %}
-        <p style="color: red;">{{ error }}</p>
+
+    <h1>🚀 TechGear Store</h1>
+
+    {% if mensaje_exito %}
+        <div class="success">{{ mensaje_exito }}</div>
     {% endif %}
-    <ul>
+
+    {% if error %}
+        <div class="alert">{{ error }}</div>
+    {% endif %}
+
+    <div class="grid">
         {% for p in productos %}
-            <li><strong>{{ p.nombre }}</strong> - ${{ p.precio }} (Stock: {{ p.stock }})</li>
+            <div class="card">
+                <div>
+                    <span class="badge">{{ p.categoria }}</span>
+                    <h2>{{ p.nombre }}</h2>
+                    <p>{{ p.descripcion }}</p>
+                    <div class="price">${{ p.precio }}</div>
+                    <div class="stock">Stock disponible: <strong>{{ p.stock }}</strong></div>
+                </div>
+
+                <form action="{% url 'crear_pedido' %}" method="POST" class="input-group">
+                    {% csrf_token %}
+                    <input type="hidden" name="producto_id" value="{{ p.id }}">
+                    <input type="email" name="email_cliente" placeholder="Tu correo electrónico" required>
+                    <input type="number" name="cantidad" value="1" min="1" max="{{ p.stock }}" required>
+                    <button type="submit" class="btn">Comprar Ahora</button>
+                </form>
+            </div>
         {% empty %}
-            <li>No hay productos disponibles.</li>
+            <p style="text-align: center; grid-column: 1/-1;">No hay productos registrados en el inventario.</p>
         {% endfor %}
-    </ul>
+    </div>
+
 </body>
 </html>

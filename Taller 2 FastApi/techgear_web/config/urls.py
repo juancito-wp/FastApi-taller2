@@ -16,9 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from tienda.views import catalogo
+from tienda.views import catalogo, crear_pedido
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', catalogo, name='catalogo'),  # Ruta principal que muestra el catálogo
+    path('pedidos/crear/', crear_pedido, name='crear_pedido'),
 ]
