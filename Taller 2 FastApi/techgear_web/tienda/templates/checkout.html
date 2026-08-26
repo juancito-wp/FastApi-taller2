@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | TechGear</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&display=swap');
+        :root { --ink: #071016; --panel: #101d25; --line: #263d47; --cyan: #4de4ff; --lime: #c4f04d; --muted: #8faab2; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Rajdhani', 'Segoe UI', sans-serif; background: #071016; margin: 0; padding: 32px 20px; color: #edfaff; background-image: linear-gradient(rgba(77,228,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(77,228,255,.035) 1px, transparent 1px); background-size: 32px 32px; }
+        main { max-width: 760px; margin: 30px auto; }
+        .panel { background: rgba(16,29,37,.96); border: 1px solid var(--line); border-top: 3px solid var(--cyan); padding: 30px; }
+        a { color: var(--cyan); }
+        h1 { color: var(--cyan); text-transform: uppercase; letter-spacing: 2px; }
+        h2 { font-size: 30px; margin-bottom: 6px; }
+        .product { border-bottom: 1px solid var(--line); margin-bottom: 22px; padding-bottom: 18px; }
+        .product p { color: var(--muted); }
+        .price { color: var(--lime); font-size: 28px; font-weight: bold; }
+        label { display: block; color: var(--lime); font-weight: 600; margin: 15px 0 6px; }
+        input { padding: 11px; width: 100%; border: 1px solid var(--line); background: #071016; color: white; font: inherit; }
+        .btn { display: inline-block; background: var(--lime); color: var(--ink); border: 0; padding: 12px 18px; cursor: pointer; font: inherit; font-weight: bold; text-transform: uppercase; margin-top: 20px; text-decoration: none; }
+        .btn:hover { background: var(--cyan); }
+        .errorlist, .error { color: #ff9b9b; background: #28181d; padding: 10px; border-left: 4px solid #ff5b68; list-style: none; }
+        .success { color: var(--lime); background: #172817; padding: 16px; border-left: 4px solid var(--lime); }
+    </style>
+</head>
+<body>
+    <main>
+        <p><a href="{% url 'catalogo' %}">← Volver al catálogo</a></p>
+        <section class="panel">
+            {% if pedido %}
+                <div class="success">
+                    <h1>Pedido realizado</h1>
+                    <p>Tu pedido fue registrado correctamente.</p>
+                    <strong>Total: ${{ pedido.total }}</strong>
+                </div>
+            {% elif producto %}
+                <h1>Checkout</h1>
+                <div class="product">
+                    <h2>{{ producto.nombre }}</h2>
+                    <p>{{ producto.descripcion }}</p>
+                    <div class="price">${{ producto.precio }}</div>
+                    <p>Stock disponible: {{ producto.stock }}</p>
+                </div>
+                {% if error %}<p class="error">{{ error }}</p>{% endif %}
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    {% for field in form %}
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {{ field.errors }}
+                    {% endfor %}
+                    <button class="btn" type="submit">Confirmar pedido</button>
+                </form>
+            {% else %}
+                <p class="error">{{ error }}</p>
+            {% endif %}
+        </section>
+    </main>
+</body>
+</html>

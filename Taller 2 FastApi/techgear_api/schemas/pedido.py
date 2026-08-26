@@ -9,8 +9,8 @@ class ProductoPedido(BaseModel):
 
 class PedidoCreate(BaseModel):
     usuario: str = Field(..., min_length=2, max_length=100)
-    correo: str
-    productos: List[ProductoPedido]
+    correo: str = Field(..., pattern=r"^[^\s@]+@[^\s@]+\.[^\s@]+$")
+    productos: List[ProductoPedido] = Field(..., min_length=1)
 
 class ProductoDetallePedido(BaseModel):
     producto_id: str
@@ -22,6 +22,13 @@ class ProductoDetallePedido(BaseModel):
 class PedidoResponse(BaseModel):
     id: str
     usuario: str
-    correo: str
-    productos: List[ProductoPedido]
-    total: float
+    correo: str = Field(..., pattern=r"^[^\s@]+@[^\s@]+\.[^\s@]+$")
+    productos: List[ProductoDetallePedido]
+    total: float = Field(..., ge=0)
+
+
+class PedidoResumen(BaseModel):
+    usuario: str
+    correo: str = Field(..., pattern=r"^[^\s@]+@[^\s@]+\.[^\s@]+$")
+    cantidad_pedidos: int = Field(..., ge=0)
+    total_compras: float = Field(..., ge=0)

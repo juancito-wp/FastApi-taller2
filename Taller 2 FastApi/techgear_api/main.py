@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from database import database
-from routes import productos, pedidos 
+from .database import database
+from .routes import productos, pedidos
 
 app = FastAPI(
     title="TechGear_API",

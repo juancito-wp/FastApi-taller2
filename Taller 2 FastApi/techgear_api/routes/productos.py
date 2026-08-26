@@ -2,8 +2,8 @@ from fastapi import APIRouter, HTTPException, status
 from bson import ObjectId
 from typing import List
 
-from database import productos_collection
-from schemas.producto import ProductoCreate, ProductoUpdate, ProductoResponse
+from ..database import productos_collection
+from ..schemas.producto import ProductoCreate, ProductoUpdate, ProductoResponse
 
 router = APIRouter(
     prefix="/productos",
