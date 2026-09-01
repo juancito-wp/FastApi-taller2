@@ -29,7 +29,16 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'dev-only-change-me')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DJANGO_DEBUG', 'True').lower() == 'true'
 
-ALLOWED_HOSTS = [host for host in os.getenv('DJANGO_ALLOWED_HOSTS', '127.0.0.1,localhost').split(',') if host]
+configured_hosts = os.getenv('DJANGO_ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
+vercel_hosts = [
+    os.getenv('VERCEL_URL'),
+    os.getenv('VERCEL_PROJECT_PRODUCTION_URL'),
+]
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in configured_hosts + vercel_hosts
+    if host and host.strip()
+]
 
 
 # Application definition
