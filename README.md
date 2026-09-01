@@ -2,7 +2,7 @@
 
 Aplicación híbrida desarrollada para el **Taller 2**, compuesta por un microservicio de alto rendimiento en **FastAPI** (API REST + MongoDB Atlas) y un portal web cliente en **Django** (patrón MVT) que consume esa API.
 
-**API en producción:** https://fastapi-taller2-qvc9.onrender.com
+**API en producción:** https://fastapi-taller2-qvc9.onrender.com/docs
 
 ---
 
